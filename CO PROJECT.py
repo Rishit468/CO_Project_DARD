@@ -107,28 +107,22 @@ class RiscVAssembler:
         
         return machine_code
 
-    def write_output_to_file(self, machine_code, output_file):
-        with open(output_file, "w") as file:
-            for code in machine_code:
-                file.write(code + "\n")
 
-# Main function to read, assemble, and write output
-def main():
+
+
+
+def clean(sen):
+    sen=sen.strip()
+    sen=sen.replace(',',' ')
+    return sen
+    
+def main(inputf,outputf):
     assembler = RiscVAssembler()
-    
-    # Read instructions from input.asm
-    with open("/Users/dishakukkal/CO/input.asm", "r") as file:
-        instructions = file.readlines()
-    
-    # Assemble the program
-    machine_code = assembler.assemble_program(instructions)
-    
-    # Write the machine code to output file
-    assembler.write_output_to_file(machine_code, "output.mc")
-    
-    # Print the machine code in binary format
-    for code in machine_code:
-        print(code)
-
+    with open(inputf,'r') as f1:
+        lines=[clean(line) for line in f1.readlines() if line!='\n']
+    binary_output = assembler.assemble_program(lines)
+    with open(outputf,'w') as f2:
+        f2.write('\n'.join(binary_output))
+        
 if _name_ == "_main_":
     main()
